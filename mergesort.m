@@ -24,7 +24,6 @@ int main(int argv, const char* argc[]) {
 	return 0;
 }
 
-// function commit one more commit plus one more
 void sort(NSMutableArray* array, int start, int end) {
 	if (start < end) {
 		int mid = start + (end - start) / 2;
