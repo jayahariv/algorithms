@@ -2,7 +2,7 @@
 
 int main(int argv, char* argc[]) {
 	NSMutableArray* input =  [[NSMutableArray alloc] init];
-	for (int i = 0; i < 100000; i++) {
+	for (int i = 0; i < 10000; i++) {
 		int rand = arc4random_uniform(10000);
 		[input addObject: [NSNumber numberWithInt: rand]];
 	}
