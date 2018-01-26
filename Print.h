@@ -8,6 +8,7 @@
 + (void)array:(NSArray*)array;
 + (void)marray:(NSMutableArray*)marray;
 
-+ (void)tree: (TreeNode*)root;
+// tree
++ (void)inorder: (TreeNode*)root;
 
 @end

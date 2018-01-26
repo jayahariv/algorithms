@@ -19,7 +19,7 @@
 	[Print array: [NSArray arrayWithArray: marray]];
 }
 
-+ (void)tree: (TreeNode*)root {
++ (void)inorder: (TreeNode*)root {
 	NSMutableArray* stack = [[NSMutableArray alloc] init];
 
 	TreeNode* node = [root mutableCopy];

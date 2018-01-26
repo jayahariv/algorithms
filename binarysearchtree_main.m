@@ -4,7 +4,6 @@
 #import "Print.h"
 #import "BinarySearchTree.h"
 
-void print(NSArray* input);
 int main(int argv, const char* argc[]) {
 	printf("\nBinary Search Tree");
 	printf("\n\n-----------------\n");
@@ -20,7 +19,7 @@ int main(int argv, const char* argc[]) {
 
 	BinarySearchTree* tree = [[BinarySearchTree alloc] init];
 	TreeNode* node = [tree construct: sortedArray];
-	[Print tree: node];
+	[Print inorder: node];
 
 	return 0;
 }
