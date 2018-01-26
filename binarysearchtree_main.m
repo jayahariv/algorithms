@@ -20,6 +20,7 @@ int main(int argv, const char* argc[]) {
 	BinarySearchTree* tree = [[BinarySearchTree alloc] init];
 	TreeNode* node = [tree construct: sortedArray];
 	[Print inorder: node];
+	[Print preorder: node];
 
 	return 0;
 }

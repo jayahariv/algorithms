@@ -6,6 +6,18 @@
 	printf("\t %d", i);
 }
 
++ (void)start: (NSString*)title {
+	printf("\n\n -- %s -- \n", [title UTF8String]);
+}
+
++ (void)end {
+	printf("\n -- \n\n");
+}
+
++ (void)debug: (TreeNode*)node {
+	printf("node: %ld left: %ld right %ld", node.data, node.left.data, node.right.data);
+}
+
 + (void)array:(NSArray*)array {
 	printf("\n");
 	for (int i = 0; i < array.count ; i++) {
@@ -20,10 +32,12 @@
 }
 
 + (void)inorder: (TreeNode*)root {
-	NSMutableArray* stack = [[NSMutableArray alloc] init];
 
+	[Print start: @"inorder tree"];
+	
+	NSMutableArray* stack = [[NSMutableArray alloc] init];
 	TreeNode* node = [root mutableCopy];
-	printf("\n\n -- InOrder tree -- \n");
+	
 	while(node != nil) {
 		[stack addObject: node];
 		node = node.left;
@@ -44,7 +58,7 @@
 
 	while(stack.count > 0) {
 		TreeNode* least = [stack lastObject];
-		printf("%ld ", least.data);
+		[Print i: (int)least.data];
 		[stack removeLastObject];
 		if (least.right != nil) {
 			TreeNode* next = least.right;
@@ -54,7 +68,28 @@
 			}
 		}
 	}	
-	printf("\n ---- \n\n");
+	[Print end];
+}
+
+
++ (void)preorder: (TreeNode*)root {
+	
+	[Print start: @"preorder tree"];
+	
+	NSMutableArray* stack = [[NSMutableArray alloc] init];
+	[stack addObject: root];
+	while (stack.count > 0) {
+		TreeNode* node = [stack lastObject];
+		[stack removeLastObject];
+		[Print i: (int)node.data];
+		if (node.right != nil) {
+			[stack addObject: node.right];
+		}
+		if (node.left != nil) {
+			[stack addObject: node.left];
+		}
+	}
+	[Print end];
 }
 
 
