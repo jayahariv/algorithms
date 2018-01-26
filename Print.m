@@ -2,6 +2,10 @@
 
 @implementation Print
 
++ (void)i: (int)i {
+	printf("\t %d", i);
+}
+
 + (void)array:(NSArray*)array {
 	printf("\n");
 	for (int i = 0; i < array.count ; i++) {
@@ -16,21 +20,41 @@
 }
 
 + (void)tree: (TreeNode*)root {
-	TreeNode* node = root;//[root copy];
 	NSMutableArray* stack = [[NSMutableArray alloc] init];
-	[stack addObject: node];
-	while(stack.count > 0) {
-		TreeNode* poped = [stack lastObject];
-		[stack removeLastObject];
-		printf("\n%ld", poped.data);
-		if (poped.right != nil) {
-			[stack addObject: poped.right];
-		}
 
-		if (poped.left != nil) {
-			[stack addObject: poped.left];
+	TreeNode* node = [root mutableCopy];
+	printf("\n\n -- InOrder tree -- \n");
+	while(node != nil) {
+		[stack addObject: node];
+		node = node.left;
+	}
+
+	/*
+
+				44
+		      /
+	       13  
+		 /  \	
+		4   22 
+		 \	  \
+		  13	36
+
+	*/
+
+
+	while(stack.count > 0) {
+		TreeNode* least = [stack lastObject];
+		printf("%ld ", least.data);
+		[stack removeLastObject];
+		if (least.right != nil) {
+			TreeNode* next = least.right;
+			while(next != nil) {
+				[stack addObject: next];
+				next = next.left;
+			}
 		}
 	}	
+	printf("\n ---- \n\n");
 }
 
 
