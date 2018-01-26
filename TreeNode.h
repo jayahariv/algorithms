@@ -2,8 +2,8 @@
 
 @interface TreeNode: NSObject <NSCopying>
 @property (nonatomic, assign) NSInteger data;
-@property (nonatomic, copy) TreeNode* left;
-@property (nonatomic, copy) TreeNode* right;
+@property (nonatomic, retain) TreeNode* left;
+@property (nonatomic, retain) TreeNode* right;
 
 - (id)initWithData: (NSInteger)d;
 @end

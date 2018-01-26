@@ -17,4 +17,11 @@
 	return node;
 }
 
+- (TreeNode*)mutableCopyWithZone: (NSZone*) zone {
+	TreeNode* node = [[TreeNode alloc] initWithData: self.data];
+	node.right = [self.right mutableCopyWithZone: zone];
+	node.left = [self.left mutableCopyWithZone: zone];
+	return node;
+}
+
 @end
