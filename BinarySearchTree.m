@@ -23,4 +23,34 @@
 	return node;
 }
 
+- (TreeNode*)insert:(NSInteger)key root:(TreeNode*)root {
+	if (root == nil) {
+		return [[TreeNode alloc] initWithData: key];
+	}
+
+	TreeNode* node = root;
+	while (node.left != nil || node.right != nil) {
+		if (key < node.data) {
+			if (node.left != nil) {
+				node = node.left;
+			} else {
+				break;
+			}
+		} else if (key > node.data) {
+			if (node.right != nil) {
+				node = node.right;
+			} else {
+				break;
+			}
+		}
+	}
+
+	if (key < node.data) {
+		node.left = [[TreeNode alloc] initWithData: key];
+	} else {
+		node.right = [[TreeNode alloc] initWithData: key];
+	}
+	return root;
+}
+
 @end
