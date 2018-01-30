@@ -13,4 +13,7 @@
 + (void)inorder: (TreeNode*)root;
 + (void)preorder: (TreeNode*)root;
 
+// not finished - dont use!!
+//+ (void)visualize: (TreeNode*)root;
+
 @end
