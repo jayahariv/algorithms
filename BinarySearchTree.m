@@ -53,4 +53,8 @@
 	return root;
 }
 
+- (TreeNode*)removeNode: (TreeNode*)node root: (TreeNode*)root {
+	//
+}
+
 @end
