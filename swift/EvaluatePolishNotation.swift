@@ -114,3 +114,4 @@ let addition = { (a: Int, b: Int) -> Int in
 };
 let inputValues1:[Any] = ["3", "2", addition]
 print("Evaluating \(inputValues1) and result is: \(inputValues1.evaluate() ?? -10001)")
+
