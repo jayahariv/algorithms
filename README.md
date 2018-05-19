@@ -11,7 +11,7 @@ Swift algorithms needs to be implemented in a functional way, where as the ObjC 
   - if not installed, check this link and follow the steps [Getting Started Swift](https://swift.org/getting-started/#installing-swift)
   - if you see the version, yay you are already having the swift. type _:quit_ to exit or explore using _:help_.
 - Go inside the Swift folder. For example, _cd ~/Downloads/algorithms/swift_
-- Compile any swift file, _swiftc <filename>.swift -o output_. For example, _swiftc ArrayRotate.swift -o output_
+- Compile any swift file, _swiftc \<filename\>.swift -o output_. For example, _swiftc ArrayRotate.swift -o output_
 - Run compiled file, _./output_
 
 
