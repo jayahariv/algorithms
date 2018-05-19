@@ -90,3 +90,27 @@ print("Evaluating \(input3) and result is: \(input3.evaluate() ?? -1001)")
 
 let input4 = ["1", "2", "3", "+", "*"]
 print("Evaluating \(input4) and result is: \(input4.evaluate() ?? -1001)")
+
+
+// ----------------------- Pass Evaluate Closure -----------------------------
+
+extension Array {
+	func evaluate() -> Int? {
+		var stack = Stack<Int>()
+		for item in self {
+			if let item = item as? String, item.isInt, let value = Int(item) {
+				stack.push(value)
+			} else {
+				if let op1 = stack.pop(), let op2 = stack.pop(), let fun = (item as? (Int, Int) -> Int) {
+					stack.push(fun(op2, op1))
+				}
+			}
+		}
+		return stack.pop()
+	}
+}
+let addition = { (a: Int, b: Int) -> Int in 
+	return (2 * a) + b
+};
+let inputValues1:[Any] = ["3", "2", addition]
+print("Evaluating \(inputValues1) and result is: \(inputValues1.evaluate() ?? -10001)")
