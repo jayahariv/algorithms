@@ -60,6 +60,28 @@ extension Array {
             }
         }
     }
+
+    mutating func rotateReversal(_ noOfTimes: Int, side: RotateSide) {
+        let position = 
+            side == RotateSide.right 
+                ? noOfTimes
+                : count - noOfTimes
+        reverse(0, end: position - 1)
+        reverse(position, end: count - 1)
+        reverse(0, end: count - 1)
+    }
+
+    mutating func reverse(_ start: Int, end: Int) {
+        var start = start
+        var end = end
+        while start < end {
+            let temp = self[start]
+            self[start] = self[end]
+            self[end] = temp
+            start += 1
+            end -= 1
+        }
+    }
 }
 
 print("\nNaive Rotation")
@@ -77,3 +99,12 @@ print("Input is: \(inputBubbleInput1) Result after Right Bubble Rotation of 3 ti
 let inputBubbleInput2 = inputBubble
 inputBubble.rotateBubble(2, side: .left)
 print("Input is: \(inputBubbleInput2) Result after Left Bubble Rotation of 2 times is: \(inputBubble) ")
+
+print("\nReversal Rotation")
+var inputReversal = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+let inputReversalInput = inputReversal
+inputReversal.rotateReversal(3, side: .right)
+print("Input is: \(inputReversalInput) Result after Right Rotation of 3 times is: \(inputReversal) ")
+let inputReversalInput2 = inputReversal
+inputReversal.rotateReversal(2, side: .left)
+print("Input is: \(inputReversalInput2) Result after Left Rotation of 2 times is: \(inputReversal) ")
