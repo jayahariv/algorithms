@@ -11,7 +11,7 @@
 extension String {
 	
 	func isIsomorphic(_ anotherString: String) -> Bool {
-		var map = [Character: Character]()
+		var map = [String: Character]()
 
 		let isSelfLargeCount = self.count > anotherString.count
 		let largestWord = isSelfLargeCount ? self : anotherString
@@ -19,13 +19,16 @@ extension String {
 		for ind in largestWord.indices {
 			let myChar = self[ind]
 			let anotherChar = anotherString[ind]
+			let key = "\(myChar)"
+			let valueKey = "\(anotherChar)~"
 
-			if map[myChar] != nil {
-				guard map[myChar] == anotherChar else {
+			if map[key] != nil || map[valueKey] != nil {
+				guard map[key] == anotherChar || map[valueKey] == myChar else {
 					return false
 				}
 			} else {
-				map[myChar] = anotherChar
+				map[key] = anotherChar
+				map[valueKey] = myChar
 			}
 		}
 
@@ -33,11 +36,14 @@ extension String {
 	}
 }
 
+func test(_ a: String, _ b: String) {
+	print("Testing Isomorphism ( \(a),  \(b) ) => \(a.isIsomorphic(b) ? "Yes" : "No")")
+}
 
-let a = "egg"
-let b = "add"
-print("Testing Isomorphism ( \(a),  \(b) ) => \(a.isIsomorphic(b) ? "Yes" : "No")")
+test("egg", "add")
 
-let a1 = "foo"
-let b1 = "bar"
-print("Testing Isomorphism ( \(a1),  \(b1) ) => \(a1.isIsomorphic(b1) ? "Yes" : "No")")
+test("foo", "bar")
+
+test("paper", "title")
+
+test("ab", "aa")
