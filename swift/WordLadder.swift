@@ -37,12 +37,16 @@ extension Array where Element == (String) {
 		for item in self {
 			set.insert(item)
 		}
+
+		if from == end {
+			return 0
+		}
 		
 		var queue = Queue<String>()
 		queue.enqueue(from)
 
 		var size = queue.size
-		var distance = 0;
+		var distance = 1;
 		while size > 0 {
 
 			guard let word = queue.dequeue() else {
@@ -64,20 +68,21 @@ extension Array where Element == (String) {
 					if word[index] != char {
 						let nextIndex = word.index(after: index)
 						newWord.replaceSubrange(index..<nextIndex, with: "\(char)")
-
 						// if the word in dictionary, add it to queue
 						if set.contains(newWord) {
 							queue.enqueue(newWord)
+							set.remove(newWord)
 						}
 					}
 				}
 			}
 
+
 			size -= 1
 			if size == 0 {
-				print("======> \(distance) ==> \(queue.getItems())")
 				size = queue.size
 				distance += 1
+				print("======> \(distance) ==> \(queue.getItems())")
 			}
 		}
 
@@ -116,7 +121,7 @@ struct Queue<T> {
 	}
 
 	public func getItems() -> [T] {
-		return Array(items[index..<size])
+		return Array(items[index..<items.count])
 	}
 }
 
