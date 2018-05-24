@@ -43,6 +43,7 @@ extension Array where Element == (String) {
 
 		// what if the start word or end is not present in the dictionary?
 
+		// O(n): Extra Memory
 		var set = Set<String>()
 		for item in self {
 			set.insert(item)
@@ -63,6 +64,8 @@ extension Array where Element == (String) {
 
 		var size = queue.size
 		var distance = 1;
+
+		// O(p): where p = dictionary count, :=> ~ O(p*n*n)
 		while size > 0 {
 
 			guard let word = queue.dequeue() else {
@@ -74,16 +77,24 @@ extension Array where Element == (String) {
 				return distance
 			}
 			
+			// get indices : O(n) times: n = string character length
 			let indices = word.indices
 
+			O(n) times: n = string character length
 			for index in indices {
 				var newWord = word
 
+				// O(n) :=> O(n^2)
+				let nextIndex = word.index(after: index)
+
+				// O(26 * n) :=> ~ O(n)
 				for char in "abcdefghijklmnopqrstuvwxyz" {
 
 					if word[index] != char {
-						let nextIndex = word.index(after: index)
+						
+						// O(n + m): m = subrange length, in our case => 1. :=> ~ O(n^2)
 						newWord.replaceSubrange(index..<nextIndex, with: "\(char)")
+						
 						// if the word in dictionary, add it to queue
 						if set.contains(newWord) {
 							queue.enqueue(newWord)
@@ -122,6 +133,7 @@ struct Queue<T> {
 		return items.count - index
 	}
 
+	// O(1) :=> sometimes O(n)
 	public mutating func enqueue(_ item:T ) {
 		items.append(item)
 
@@ -132,6 +144,7 @@ struct Queue<T> {
 		}
 	}
 
+	// O(1)
 	public mutating func dequeue() -> T? {
 		var item: T? = nil
 		if size > 0 {
