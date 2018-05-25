@@ -60,6 +60,11 @@ public extension Array where Element == (Int) {
 		guard array.count > 0 else {
 			return self.median
 		}
+
+		// GUARD: If both array medians are same, return one among them.
+		guard self.median != array.median else {
+			return self.median
+		}
 		
 		// NON OVERLAPPING -> median
 		
@@ -78,10 +83,7 @@ public extension Array where Element == (Int) {
 
 		} else { 
 
-			// OVERLAPPING
-
-			return 1.9
-
+			return overlappingMedian(self, array)
 		}
 
 	}
@@ -89,24 +91,83 @@ public extension Array where Element == (Int) {
 	private func nonOverlappingMedian(_ array1: Array<Int>, _ array2: Array<Int>) -> Double {
 		
 		let total = array1.count + array2.count
-		let index = total/2
+		let position = (total + 1 )/2
 
 		if total%2 != 0 { // ODD
-			if index < array1.count {
-				return Double(array1[index])
+			
+			if position <= array1.count {
+				
+				return Double(array1[position - 1])
+
 			} else {
-				return Double(array2[index - array1.count])
+				
+				return Double(array2[position - array1.count - 1])
+
 			}
+		
 		} else { // EVEN
 			
-			if index + 1 < array1.count {
-				return Double(array1[index] + array1[index+1])/2.0
-			} else if index >= array1.count {
-				return Double(array2[index-array1.count] + array2[1+index-array1.count])/2.0
+			if array1.count - position > 0 {
+
+				return Double(array1[position - 1] + array1[position])/2.0
+
+			} else if position - array1.count > 0 {
+				
+				return Double(array2[position-array1.count - 1] + array2[position-array1.count])/2.0
+
 			} else {
-				return Double(array1[index] + array2[1+index-array1.count])/2.0
+				
+				return Double(array1[position - 1] + array2[position-array1.count])/2.0
+
 			}
 		}
+	}
+
+	private func overlappingMedian(_ array1: Array<Int>, _ array2: Array<Int>) -> Double {
+
+		// Make sure, array 1 always has the minimum length.
+		if array1.count > array2.count {
+			return overlappingMedian(array2, array1)
+		}
+
+		let x = array1.count
+		let y = array2.count
+
+		var low = 0
+		var high = x
+
+		while low <= high {
+			
+			let partitionX = (low+high)/2
+			let partitionY = (x+y+1)/2 - partitionX
+
+			let maxLeftX = partitionX <= 0 ? Int(Int32.min) : array1[partitionX - 1]
+			let minRightX = partitionX >= x ? Int(Int32.max) : array1[partitionX]
+			
+			let maxLeftY = partitionY <= 0 ? Int(Int32.min) : array2[partitionY - 1]
+			let minRightY = partitionY >= y ? Int(Int32.max) : array2[partitionY]
+
+			if maxLeftX <= minRightY && maxLeftY <= minRightX {
+
+				if ((x+y)%2) == 0 {
+					return Double( Swift.max(maxLeftX, maxLeftY) + Swift.min(minRightX, minRightY) ) / 2.0
+
+				} else {
+
+					return Double(Swift.max(maxLeftX, maxLeftY))
+
+				}
+			} else if maxLeftX > minRightY {
+				
+				high = partitionX - 1
+			
+			} else  {
+				
+				low = partitionX + 1
+			}
+		}
+
+		return Double(Int32.min)
 	}
 }
 
@@ -138,7 +199,6 @@ testMedianOfArray([1, 2, 3, 4], 2.5)
 // ------------------ Median Of 2 Arrays ------------------
 
 func test(_ array1: Array<Int>, _ array2: Array<Int>, _ result: Double) {
-	print(array1.medianOf(array2))
 	genTest("Median of 2 Arrays") { array1.medianOf(array2) == result }
 }
 
@@ -151,3 +211,13 @@ test([1, 2, 3, 4], [5], 3.0)
 test([1], [5, 6, 7, 8], 6.0)
 test([1, 2, 3, 4], [5, 6, 7], 4.0)
 test([1, 20, 30], [50, 60, 70, 88], 50.0)
+test([1, 20, 30, 40, 50], [60, 70, 88], 45.0)
+test([1, 20, 30], [60, 70, 88, 90, 110], 65.0)
+test([1, 20, 30], [60, 70, 88], 45.0)
+test([1, 2, 4, 7, 9, 10], [2, 4, 6, 8, 9], 6.0)
+
+// leetcode tests - 2080
+test([1, 3], [2], 2.0)
+test([1], [1], 1.0)
+test([1,1], [1,2], 1.0) // 1670
+test([2], [1, 3, 4], 2.5) // 1676
